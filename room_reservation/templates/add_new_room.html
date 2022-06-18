@@ -1,0 +1,17 @@
+{% extends "main.html" %}
+{% block content %}
+    <form class="add_new_room" method="post">
+        <h1>Add new room to our database:</h1>
+        <label>Room name</label><br>
+        <input name="room_name" type="text" maxlength="255"><br>
+        <label>Capacity</label><br>
+        <input name="capacity" type="number"><br>
+        <label>Projector</label><br>
+        <input type="checkbox" name="projector">
+        <button type="submit" name="submit" value="movie">Submit</button>
+        <br>
+        {% for info in user_info %}
+            <p>{{info}}</p>
+        {% endfor %}
+    </form>
+{% endblock %}
