@@ -1,0 +1,25 @@
+{% extends "main.html" %}
+{% block content %}
+    <form class="modify_room" method="post">
+        <h1>Modify room data:</h1>
+        {% for room in room_details %}
+            <label>Room name</label><br>
+            <input name="room_name" type="text" maxlength="255" value={{room.name}}><br>
+            <label>Capacity</label><br>
+            <input name="capacity" type="number" value={{room.capacity}}><br>
+            <label>Projector</label>
+            <br>
+            {% if room.projector %}
+                <input type="checkbox" name="projector" checked>
+            {% else %}
+                <input type="checkbox" name="projector">
+            {% endif %}
+            <br>
+            <button type="submit" name="submit" value="movie">Submit</button>
+            <br>
+            {% for info in user_info %}
+                <p>{{info}}</p>
+            {% endfor %}
+        {% endfor %}
+    </form>
+{% endblock %}

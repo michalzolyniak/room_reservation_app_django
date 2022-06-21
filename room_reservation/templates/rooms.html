@@ -1,0 +1,36 @@
+{% extends "main.html" %}
+{% block content %}
+    {% if rooms %}
+        <h1>Rooms available in our database</h1>
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Capacity</th>
+                <th>Availability</th>
+                <th>Projector</th>
+                <th>Action</th>
+             </tr>
+            {% for room in rooms %}
+            <TR>
+                <TD><a href="/room/{{room.id}}/">{{room.name}}</a></TD>
+                <TD>{{room.capacity}}</TD>
+                <TD></TD>
+                <TD>{{room.projector}}</TD>
+                <TD>
+                    <form action="/room/modify/{{room.id}}/">
+                        <input type="submit" value="Modify"/>
+                    </form>
+                    <form action="/room/delete/{{room.id}}">
+                        <input type="submit" value="Remove"/>
+                    </form>
+                    <form action="/room/reserve/{{room.id}}">
+                        <input type="submit" value="Reserve"/>
+                    </form>
+                </TD>
+            </TR>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>No rooms available</p>
+    {% endif %}
+{% endblock %}
