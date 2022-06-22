@@ -76,7 +76,7 @@ class ModifyRoom(View):
             'room_details': room_details
         })
 
-    def post(self, request):
+    def post(self, request, room_id):
         errors = list()
         user_info = list()
         room_name = request.POST.get('room_name')
@@ -98,11 +98,18 @@ class ModifyRoom(View):
 
         if errors:
             user_info = errors
+            room_details = get_room_detail(room_id)
+            return render(request, 'modify_room.html', {
+                'room_details': room_details,
+                'user_info': user_info
+            })
         else:
-            if update_room(room_name, capacity, projector):
-                user_info.append("New room has been added to our database")
+            if update_room(room_id, room_name, capacity, projector):
+                return redirect("room-list")
             else:
                 user_info.append("Database error")
-        return render(request, 'add_new_room.html', {
-            'user_info': user_info
-        })
+                room_details = get_room_detail(room_id)
+                return render(request, 'modify_room.html', {
+                    'room_details': room_details,
+                    'user_info': user_info
+                })

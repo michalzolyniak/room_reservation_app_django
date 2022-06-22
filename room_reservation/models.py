@@ -29,7 +29,7 @@ def add_new_room(name, capacity, projector):
 
 def update_room(room_id, name, capacity, projector):
     try:
-        room_data = get_room_detail(room_id)
+        room_data = Room.objects.get(id=room_id)
         room_data.name = name
         room_data.capacity = capacity
         room_data.projector = projector
