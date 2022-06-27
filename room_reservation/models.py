@@ -9,6 +9,15 @@ class Room(models.Model):
     projector = models.BooleanField(default=False)
 
 
+class Reservation(models.Model):
+    room_id = models.ForeignKey(Room, on_delete=models.CASCADE)
+    date = models.DateField()
+    comment = models.TextField(null=True)
+
+    class Meta:
+        unique_together = ('room_id', 'date',)
+
+
 def get_rooms():
     return Room.objects.all()
 

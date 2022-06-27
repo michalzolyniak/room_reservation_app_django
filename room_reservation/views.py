@@ -113,3 +113,9 @@ class ModifyRoom(View):
                     'room_details': room_details,
                     'user_info': user_info
                 })
+
+
+@method_decorator(csrf_exempt, name='dispatch')
+class ReserveRoom(View):
+    def get(self, request, room_id):
+        return render(request, 'reserve_room.html')

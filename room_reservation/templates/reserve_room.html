@@ -1,0 +1,16 @@
+{% extends "main.html" %}
+{% block content %}
+    <form class="reserve_room" method="post">
+        <h1>Reserve room:</h1>
+        <label>Date</label><br>
+        <input name="reservation_date" type="date"><br>
+        <br>
+        <label>Comment</label><br>
+        <input name="comment" type="text" maxlength="255" ><br>
+        <br>
+        <button type="submit" name="submit">Submit</button>
+        {% for info in user_info %}q
+            <p>{{info}}</p>
+        {% endfor %}
+    </form>
+{% endblock %}
