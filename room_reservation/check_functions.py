@@ -1,4 +1,5 @@
-from room_reservation.models import Room
+from datetime import datetime
+from room_reservation.models import Room, Reservation
 
 
 def check_if_room_exist(room_name):
@@ -7,6 +8,14 @@ def check_if_room_exist(room_name):
         return True
     else:
         return False
+
+
+def room_available(room_id, date):
+    room_reservation = Reservation.objects.all()
+    if room_reservation.filter(room_id_id=room_id, date=date).count() > 0:
+        return False
+    else:
+        return True
 
 
 def check_room(room_name):
@@ -25,3 +34,11 @@ def check_capacity(capacity):
         return "Capacity must be integer"
     if capacity_int <= 0:
         return "Capacity must be integer greater then 0"
+
+
+def bad_reservation_date(reservation_date):
+    message = ""
+    present = datetime.now()
+    if reservation_date.date() < present.date():
+        message = "The room reservation date should at least eqal today's date"
+    return message

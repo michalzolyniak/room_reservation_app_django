@@ -1,10 +1,12 @@
+from datetime import datetime
 from django.shortcuts import render, redirect
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views import View
-from room_reservation.check_functions import check_room, check_capacity, check_if_room_exist
+from room_reservation.check_functions import check_room, check_capacity, room_available, \
+    bad_reservation_date
 from room_reservation.models import add_new_room, get_rooms, delete_room, \
-    get_room_detail, update_room
+    get_room_detail, update_room, reserve_room
 
 
 # Create your views here.
@@ -119,3 +121,30 @@ class ModifyRoom(View):
 class ReserveRoom(View):
     def get(self, request, room_id):
         return render(request, 'reserve_room.html')
+
+    def post(self, request, room_id):
+        error = list()
+        comment = request.POST.get('comment')
+        try:
+            reservation_date = datetime.strptime(request.POST.get('reservation_date'), "%Y-%m-%d")
+        except Exception as e:
+            error.append("Please input Date")
+        if not error:
+            info = bad_reservation_date(reservation_date)
+            if info:
+                error.append(info)
+        if not error:
+            if not room_available(room_id, reservation_date.date()):
+                error.append("The room is unavailable on this date")
+        if not error:
+            if reserve_room:
+                info = reserve_room(room_id, reservation_date, comment)
+                if info:
+                    error.append(info)
+        if error:
+            return render(request, 'reserve_room.html', {
+                'user_info': error,
+                'comment': comment
+            })
+        else:
+            return redirect("room-list")

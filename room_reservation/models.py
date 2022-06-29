@@ -54,3 +54,17 @@ def delete_room(room_id):
     except Exception as e:
         return False
     return True
+
+
+def reserve_room(room_id, reservation_date, comment):
+    message = ""
+    try:
+        if comment:
+            Reservation.objects.create(date=reservation_date, comment=comment,
+                                       room_id_id=room_id)
+        else:
+            Reservation.objects.create(date=reservation_date,
+                                       room_id_id=room_id)
+    except Exception as e:
+        message = "Database error"
+    return message
