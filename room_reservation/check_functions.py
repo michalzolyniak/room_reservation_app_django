@@ -42,3 +42,19 @@ def bad_reservation_date(reservation_date):
     if reservation_date.date() < present.date():
         message = "The room reservation date should at least eqal today's date"
     return message
+
+
+def check_post_data(room_id, reservation_date):
+    errors = list()
+    try:
+        reservation_date = datetime.strptime(reservation_date, "%Y-%m-%d")
+    except Exception as e:
+        errors.append("Please input Date")
+    if not errors:
+        info = bad_reservation_date(reservation_date)
+        if info:
+            errors.append(info)
+    if not errors:
+        if not room_available(room_id, reservation_date.date()):
+            errors.append("The room is unavailable on this date")
+    return errors
