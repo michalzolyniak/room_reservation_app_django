@@ -1,4 +1,5 @@
 from django.db import models
+import datetime
 
 
 # Create your models here.
@@ -19,7 +20,11 @@ class Reservation(models.Model):
 
 
 def get_rooms():
-    return Room.objects.all()
+    rooms = Room.objects.all()
+    for room in rooms:
+        reservation_dates = [reservation.date for reservation in room.reservation_set.all()]
+        room.reserved = datetime.date.today() in reservation_dates
+    return rooms
 
 
 def get_room_detail(room_id):
@@ -68,3 +73,16 @@ def reserve_room(room_id, reservation_date, comment):
     except Exception as e:
         message = "Database error"
     return message
+
+
+def get_room_reservations(room_id):
+    room_reservations = Reservation.objects.all()
+    return room_reservations.filter(room_id_id=room_id)
+
+
+def check_room_reservations(room_id, date):
+    room_reservations = Reservation.objects.all()
+    if room_reservations.filter(room_id_id=room_id, date=date).count() > 0:
+        return True
+    else:
+        return False

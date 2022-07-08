@@ -6,7 +6,7 @@
             <tr>
                 <th>Name</th>
                 <th>Capacity</th>
-                <th>Availability</th>
+                <th>Available now</th>
                 <th>Projector</th>
                 <th>Action</th>
              </tr>
@@ -14,8 +14,16 @@
             <TR>
                 <TD><a href="/room/{{room.id}}/">{{room.name}}</a></TD>
                 <TD>{{room.capacity}}</TD>
-                <TD></TD>
-                <TD>{{room.projector}}</TD>
+                {% if room.reserved %}
+                    <TD>Yes</TD>
+                {% else %}
+                    <TD>No</TD>
+                {% endif %}
+                {% if room.projector %}
+                    <TD>Yes</TD>
+                {% else %}
+                    <TD>No</TD>
+                {% endif %}
                 <TD>
                     <form action="/room/modify/{{room.id}}/">
                         <input type="submit" value="Modify"/>
@@ -26,7 +34,11 @@
                     <form action="/room/reserve/{{room.id}}">
                         <input type="submit" value="Reserve"/>
                     </form>
+                    <form action="/room/room_reservations/{{room.id}}">
+                        <input type="submit" value="All reservations"/>
+                    </form>
                 </TD>
+            </TR>
             </TR>
             {% endfor %}
         </table>

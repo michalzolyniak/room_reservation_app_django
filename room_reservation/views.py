@@ -6,7 +6,7 @@ from django.views import View
 from room_reservation.check_functions import check_room, check_capacity, room_available, \
     bad_reservation_date, check_post_data
 from room_reservation.models import add_new_room, get_rooms, delete_room, \
-    get_room_detail, update_room, reserve_room
+    get_room_detail, update_room, reserve_room, get_room_reservations, check_room_reservations
 
 
 # Create your views here.
@@ -59,7 +59,8 @@ class Rooms(View):
     def get(self, request):
         rooms = get_rooms()
         return render(request, 'rooms.html', {
-            'rooms': rooms
+            'rooms': rooms,
+            # 'current_reservations': current_reservations
         })
 
 
@@ -139,3 +140,14 @@ class ReserveRoom(View):
             })
         else:
             return redirect("room-list")
+
+
+@method_decorator(csrf_exempt, name='dispatch')
+class RoomReservations(View):
+    def get(self, request, room_id):
+        room_details = get_room_detail(room_id)
+        room_reservations = get_room_reservations(room_id)
+        return render(request, 'room_reservations.html', {
+            'room_details': room_details,
+            'room_reservations': room_reservations
+        })
