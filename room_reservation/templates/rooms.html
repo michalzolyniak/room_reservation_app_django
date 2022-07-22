@@ -14,10 +14,10 @@
             <TR>
                 <TD><a href="/room/{{room.id}}/">{{room.name}}</a></TD>
                 <TD>{{room.capacity}}</TD>
-                {% if room.reserved %}
-                    <TD>Yes</TD>
-                {% else %}
+                {% if room.reserved  %}
                     <TD>No</TD>
+                {% else %}
+                    <TD>Yes</TD>
                 {% endif %}
                 {% if room.projector %}
                     <TD>Yes</TD>

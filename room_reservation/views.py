@@ -121,7 +121,10 @@ class ModifyRoom(View):
 @method_decorator(csrf_exempt, name='dispatch')
 class ReserveRoom(View):
     def get(self, request, room_id):
-        return render(request, 'reserve_room.html')
+        room = get_room_detail(room_id)
+        room_name = room[0].name
+        return render(request, 'reserve_room.html',
+                      {'room_name': room_name})
 
     def post(self, request, room_id):
         error = ""

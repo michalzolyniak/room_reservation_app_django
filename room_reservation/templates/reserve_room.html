@@ -1,7 +1,7 @@
 {% extends "main.html" %}
 {% block content %}
     <form class="reserve_room" method="post">
-        <h1>Reserve room:</h1>
+        <h1>Reserve room:{{ room_name }}</h1>
         <label>Date</label><br>
         <input name="reservation_date" type="date"><br>
         <br>
